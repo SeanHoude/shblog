@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+    Browse - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+    <h3>Browse books {% if query|length == 0 or query|length > 1 %} by letter{% endif %}{% if query|length == 1 %} starting with '{{ query|title }}'{% endif %}</h3>
+    {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
+        <a href="{% url 'browse_by_title' query=letter %}"
+        {% if query == letter %}class="active"{% endif %}>
+        {{ letter|upper }}
+        </a>
+    {% endfor %}
+    <hr>
+    <h3>Browse{% if query|length > 1 %} {{ query }} books{% else %} categories{% endif %}</h3>
+    {% for cat in categories %}
+        <ul class="no-bullet">
+            <li class="no-bullet"><a href="{% url 'browse_by_title' query=cat %}"
+            {% if query == cat %}class="active"{% endif %}>
+            {{ cat|title }}
+            </a></li>
+        </ul>
+    {% endfor %}
+    <hr>
+    <ul>
+        {% for book in books %}
+            <li><a href="{% url 'book_detail' slug=book.slug %}">
+                {{ book.title }}
+            </a></li>
+            {% empty %}
+                <li>Sorry, no results!</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
