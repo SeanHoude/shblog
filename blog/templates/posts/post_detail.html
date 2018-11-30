@@ -4,14 +4,12 @@
 {% endblock title %}
 
 {% block content %}
-    <img src="{{ post.cover.url }}" alt="">
     <h1>{{ post.title }}</h1>
     <p>added on {{ post.created }}</p>
     <p>{{ post.description }}</p>
-    <img class="cover-thumb" src="{{ post.image.url }}" alt="">
+    {% if post.image %}<img class="cover-thumb" src="{{ post.image.url }}" alt="">{% endif %}
     <p>{{ fav_post }}</p>
     <p>{{ post.num_votes }}</p>
-    <p>{{ post.uploads }}</p>
     {% comment %} {% if user == post.creator %} {% endcomment %}
         <p><a href="{% url 'edit_post' slug=post.slug %}">Edit me!</a></p>
     {% comment %} {% endif %} {% endcomment %}

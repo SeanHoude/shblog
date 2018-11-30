@@ -14,7 +14,7 @@ class Post(Timestamp):
     title = models.CharField(max_length=250)
     description = models.TextField()
     slug = models.SlugField(unique=True, max_length=50)
-    image = models.ImageField(default='default.png', blank=True)
+    image = models.ImageField(default=None, blank=True)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name='favorite_posts')
     upvoted = models.ManyToManyField(User, through='Vote', related_name='voted')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -49,6 +49,6 @@ class Vote(Timestamp):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name="votes")
 
-class Upload(Timestamp):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="uploads")
-    image = models.ImageField(upload_to=get_image_path)
+# class Upload(Timestamp):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="uploads")
+#     image = models.ImageField(upload_to=get_image_path)

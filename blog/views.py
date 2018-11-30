@@ -9,7 +9,7 @@ from django.template.loader import get_template
 from django.views.generic import ListView, DetailView
 from django.db.models import Count
 from django.contrib import messages
-from blog.models import Post, Comment, Favorite, Vote, Upload
+from blog.models import Post, Comment, Favorite, Vote
 from blog.forms import PostForm, ContactForm
 from registration.backends.simple.views import RegistrationView
 

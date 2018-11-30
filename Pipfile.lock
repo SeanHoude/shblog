@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "123e626f8405e394a8ec2b5909fdbfdc55390d2dce11c19fce07a38f163fcfda"
+            "sha256": "26ccd6a0ad2049eef3230b799d9b863a5d982a4a293a2541b23ccf5e1e4fede4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,13 +16,6 @@
         ]
     },
     "default": {
-        "crispy-forms-foundation": {
-            "hashes": [
-                "sha256:72fafa249c59c69ce8fab430f01b71429cb2a26be8c47a3323b2eb26e79f53a1"
-            ],
-            "index": "pypi",
-            "version": "==0.7.0"
-        },
         "dj-database-url": {
             "hashes": [
                 "sha256:4aeaeb1f573c74835b0686a2b46b85990571159ffc21aa57ecd4d1e1cb334163",
@@ -37,14 +30,6 @@
             ],
             "index": "pypi",
             "version": "==2.1.3"
-        },
-        "django-crispy-forms": {
-            "hashes": [
-                "sha256:5952bab971110d0b86c278132dae0aa095beee8f723e625c3d3fa28888f1675f",
-                "sha256:705ededc554ad8736157c666681165fe22ead2dec0d5446d65fc9dd976a5a876"
-            ],
-            "index": "pypi",
-            "version": "==1.7.2"
         },
         "django-debug-toolbar": {
             "hashes": [
@@ -84,14 +69,6 @@
             ],
             "index": "pypi",
             "version": "==1.0.0"
-        },
-        "mimesis": {
-            "hashes": [
-                "sha256:2a17aa98cc8aff2c0b1828312e213a515030ed57a1c7b61fc07a87150cb0f25f",
-                "sha256:4b856023acdaaefe2e10bbfea9fd4cb6fa9adbbbe9618a8f796aa8887b58e6f2"
-            ],
-            "index": "pypi",
-            "version": "==2.1.0"
         },
         "pillow": {
             "hashes": [
@@ -170,6 +147,14 @@
                 "sha256:88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"
             ],
             "version": "==2.7.5"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:122290a38ece9fe4f162dc7c95cae3357b983505830a154d3c98ef7f6c6cea77",
+                "sha256:4a205787bc829233de2a823aa328e44fd9996fedb954989a21f1fc67c13d7a77"
+            ],
+            "index": "pypi",
+            "version": "==0.9.1"
         },
         "pytz": {
             "hashes": [

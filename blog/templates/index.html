@@ -9,15 +9,16 @@
     <h1>Directory</h1>
     <div class="grid-x">
         {% for post in posts %}
-            <div class="cell large-6">
-                <a href="{% url 'post_detail' slug=post.slug %}"><img class="cover-thumb" src="{{ post.image.url }}" alt=""></a>
+            <div class="cell large-6 callout">
+                <a href="{% url 'post_detail' slug=post.slug %}">{% if post.image %}<img class="cover-thumb" src="{{ post.image.url }}" alt=""></a>{% endif %}
                  <div class="nav-item">
                     <h5 class="float-left"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }} - {{ post.created|date:'m-d-Y' }}</a></h5>
+                    <!--  show favorite button if user is logged in  -->
                     {% if request.user.is_authenticated %}{% endif %}
                     <form method="POST" action="{% url 'toggle_favorite' slug=post.slug %}">
                         {% csrf_token %}
-                        <input type="hidden" name="post" value="{{ post.pk }}">
-                        <button class="button success tiny" type="submit">
+                        <input type="hidden" name="post" value="{{ post.slug }}">
+                        <button class="star-five" type="submit">
                             {% if post in favorite_posts %}
                                 
                             {% else %}

@@ -2,6 +2,8 @@
 
 import os
 import django_heroku
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -11,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm%qc09ky)&fephs6h4(r8a_2-ab=1ce=%v&*b3np6-t@thf8l!'
+SECRET_KEY = os.getenv('PORTFOLIO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -133,10 +135,10 @@ INTERNAL_IPS = ['127.0.0.1']
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
-    messages.SUCCESS: 'bg-light-green pa3 br3 ma3',
-    messages.INFO: 'bg-light-blue pa3 br3 ma3',
-    messages.WARNING: 'bg-yellow pa3 br3 ma3',
-    messages.ERROR: 'bg-dark-red white pa3 br3 ma3',
+    messages.SUCCESS: 'callout success',
+    messages.INFO: 'callout info',
+    messages.WARNING: 'callout warning',
+    messages.ERROR: 'callout alert',
 }
 
 # Activate Django-Heroku.

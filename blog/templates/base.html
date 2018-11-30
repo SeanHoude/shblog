@@ -46,7 +46,7 @@
                 <ul>
                     {% for post in posts %}
                         <li><a href="{% url 'post_detail' slug=post.slug %}">
-                            {{ post.title }} - {{ post.created|truncatechars:14 }}
+                            {{ post.title }} - added {{ post.created|date:'m-d-Y' }}
                         </a></li>
                     {% endfor %}
                 </ul>
