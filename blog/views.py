@@ -146,7 +146,7 @@ def toggle_favorite(request, slug):
         message = f"{post} has been favorited"
 
     messages.add_message(request, messages.INFO, message)
-    return redirect(post.slug)
+    return redirect('home')
 
 
 def toggle_vote(request, slug):
@@ -157,4 +157,4 @@ def toggle_vote(request, slug):
     else:
         post.votes.create(user=request.user)
 
-    return redirect(slug)
+    return redirect('home')

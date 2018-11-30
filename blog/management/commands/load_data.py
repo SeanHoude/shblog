@@ -7,7 +7,8 @@ from blog.models import Post, Comment, Vote, Favorite
 from django.core.files import File
 from django.template.defaultfilters import slugify
 import csv
-
+import random
+from django_faker import Faker
 
 def get_path(file):
     return os.path.join(settings.BASE_DIR, 'blog/management/commands/imports/', file)
@@ -26,12 +27,16 @@ class Command(BaseCommand):
         Favorite.objects.all().delete()
         Vote.objects.all().delete()
 
+        populator = Faker.getPopulator()
+
+        
+
         users = []
         person = Person()
-        for fake_user in range(17):
+        for fake_user in range(50):
             fake_user = User.objects.create_user(person.username(), person.email(), 'password')
             users.append(fake_user)
-        print("17 Fake users created!")
+        print("50 Fake users created!")
 
         fake_posts = [
             {
@@ -121,25 +126,30 @@ class Command(BaseCommand):
             },
         ]
 
+        fake_postsss = []
+        for i in range(50):
+            dict = {
+                'title': f"This is example post{i}",
+                'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, quod. Officiis vel, voluptatibus aliquid necessitatibus dolorum delectus? Deleniti veritatis atque rem odit ut, laudantium harum facere molestias. Dolor, sunt quas.',
+                'user': users[i],
+            }
+            fake_postsss.append(dict)
+
+        # for post in posts:
+        #     num_favs = random.randint(0, 5)
+        #     random.shuffle(users)
+        #     for i in range(num_favs):
+        #         post.favorites.create(user=users[i])
+
         posts = []
-        for post_data in fake_posts:
+        for post_data in fake_postsss:
             post = Post.objects.create(**post_data)
-            post.slug = slugify(post.title)
             posts.append(post)
         print('Posts imported!!!')
 
-        Vote.objects.create(post=posts[5], user=users[1])
-        Vote.objects.create(post=posts[5], user=users[2])
-        Vote.objects.create(post=posts[5], user=users[3])
-        Vote.objects.create(post=posts[2], user=users[4])
-        Vote.objects.create(post=posts[2], user=users[5])
-        Vote.objects.create(post=posts[0], user=users[6])
-        Vote.objects.create(post=posts[7], user=users[7])
-        Vote.objects.create(post=posts[9], user=users[8])
-        Vote.objects.create(post=posts[10], user=users[9])
-        Vote.objects.create(post=posts[16], user=users[10])
-        Vote.objects.create(post=posts[4], user=users[11])
-
+        for i in range(100):
+            Vote.objects.create(post=posts[random.randint(0, 50)], user=users[i])
+        
         # image_list = [
         #     'blade-itself.jpg',
         #     'lies-locke-lamora.jpg',

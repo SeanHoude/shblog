@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Timestamp(models.Model):
@@ -18,6 +18,11 @@ class Post(Timestamp):
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name='favorite_posts')
     upvoted = models.ManyToManyField(User, through='Vote', related_name='voted')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
