@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'blog',
     'debug_toolbar',
     'django_extensions',
+    'crispy_forms',
     'registration',
     'mimesis',
 ]

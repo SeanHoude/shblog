@@ -3,33 +3,30 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
 from django.http import HttpResponseRedirect
-from django.template.defaultfilters import slugify
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.views.generic import ListView, DetailView
 from django.db.models import Count
 from django.contrib import messages
-from blog.models import Post, Comment, Favorite, Vote
+from blog.models import Post, Comment, Favorite, Like
 from blog.forms import PostForm, ContactForm
 from registration.backends.simple.views import RegistrationView
 
 
-# Create your views here.
-
 def index(request):
+    post_list = Post.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes', '-created')
+
     posts = Post.objects.all().order_by('-created')
 
     return render(request, 'index.html', {
         'all': all,
         'posts': posts,
+        'post_list': post_list,
     })
 
 class PostListView(ListView):
     context_object_name = 'posts'
     model = Post
-
-# class PostDetailView(DetailView):
-#     model = Post
 
 def post_detail(request, slug):
     posts = Post.objects.all().order_by('-created')
@@ -71,8 +68,10 @@ def create_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
-            post.slug = slugify(post.title)
             post.save()
+            message = f"Your comment has been added to '{post.title}'!"
+            messages.add_message(request, messages.SUCCESS, message)
+
             return redirect('post_detail', slug=post.slug)
     else:
         form = form_class()
@@ -105,7 +104,7 @@ def contact(request):
                 content,
                 'Your website <h1@example.com>',
                 ['youremail@gmail.com'],
-                headers = {'Reply-To': contact_email}
+                headers={'Reply-To': contact_email}
             )
             email.send()
             return redirect('contact')
@@ -149,12 +148,12 @@ def toggle_favorite(request, slug):
     return redirect('home')
 
 
-def toggle_vote(request, slug):
+def toggle_like(request, slug):
     post = Post.objects.get(slug=slug)
 
-    if post in request.user.voted.all():
-        post.votes.get(user=request.user).delete()
+    if post in request.user.liked.all():
+        post.likes.get(user=request.user).delete()
     else:
-        post.votes.create(user=request.user)
+        post.likes.create(user=request.user)
 
     return redirect('home')

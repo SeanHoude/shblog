@@ -12,20 +12,18 @@ class Timestamp(models.Model):
 
 class Post(Timestamp):
     title = models.CharField(max_length=250)
+    url = models.URLField(max_length=400, null=True, blank=True)
     description = models.TextField()
     slug = models.SlugField(unique=True, max_length=50)
     image = models.ImageField(default=None, blank=True)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name='favorite_posts')
-    upvoted = models.ManyToManyField(User, through='Vote', related_name='voted')
+    liked = models.ManyToManyField(User, through='Like', related_name='liked')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.id:
             self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
+        super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return "posts/%s/" % self.slug
@@ -45,10 +43,12 @@ class Favorite(Timestamp):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name="favorites")
 
-class Vote(Timestamp):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name="votes")
+    class Meta:
+        unique_together = ('post', 'user',)
 
-# class Upload(Timestamp):
-#     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="uploads")
-#     image = models.ImageField(upload_to=get_image_path)
+class Like(Timestamp):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="likers")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name="likes")
+
+    class Meta:
+        unique_together = ('post', 'user',)

@@ -16,6 +16,8 @@ django-heroku = "*"
 werkzeug = "*"
 django-debug-toolbar = "*"
 python-dotenv = "*"
+django-crispy-forms = "*"
+mimesis = "*"
 
 [requires]
 python_version = "3.7"

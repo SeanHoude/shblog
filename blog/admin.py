@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Favorite, Vote
+from blog.models import Post, Comment, Favorite, Like
 
 class PostAdmin(admin.ModelAdmin):
     model = Post
@@ -14,8 +14,8 @@ class FavoriteAdmin(admin.ModelAdmin):
     model = Favorite
     list_display = ('user', 'post', 'created', 'updated', )
 
-class VoteAdmin(admin.ModelAdmin):
-    model = Vote
+class LikeAdmin(admin.ModelAdmin):
+    model = Like
     list_display = ('user', 'post', 'created', 'updated', )
 
 # class UploadAdmin(admin.ModelAdmin):
@@ -25,5 +25,5 @@ class VoteAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
-admin.site.register(Vote, VoteAdmin)
+admin.site.register(Like, LikeAdmin)
 # admin.site.register(Upload, UploadAdmin)

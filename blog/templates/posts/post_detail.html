@@ -9,7 +9,7 @@
     <p>{{ post.description }}</p>
     {% if post.image %}<img class="cover-thumb" src="{{ post.image.url }}" alt="">{% endif %}
     <p>{{ fav_post }}</p>
-    <p>{{ post.num_votes }}</p>
+    <p>{{ post.num_likes }}</p>
     {% comment %} {% if user == post.creator %} {% endcomment %}
         <p><a href="{% url 'edit_post' slug=post.slug %}">Edit me!</a></p>
     {% comment %} {% endif %} {% endcomment %}

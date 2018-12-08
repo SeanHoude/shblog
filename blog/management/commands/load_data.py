@@ -5,16 +5,15 @@ from django.contrib.auth.models import User
 from mimesis import Person
 from blog.models import Post, Comment, Vote, Favorite
 from django.core.files import File
-from django.template.defaultfilters import slugify
-import csv
 import random
 from faker import Faker
+# import csv
 
 def get_path(file):
     return os.path.join(settings.BASE_DIR, 'blog/management/commands/imports/', file)
 
 class Command(BaseCommand):
-    help = "Import books from books.csv"
+    help = "Create fake data for testing blog layout"
 
     def add_arguments(self, parser):
         pass
@@ -25,7 +24,7 @@ class Command(BaseCommand):
         User.objects.filter(is_superuser=False).delete()
         Comment.objects.all().delete()
         Favorite.objects.all().delete()
-        Vote.objects.all().delete()
+        Like.objects.all().delete()
 
         fake = Faker()
         # populator = Faker.getPopulator()
@@ -52,8 +51,8 @@ class Command(BaseCommand):
         print('50 Posts imported!!!')
 
         for i in range(50):
-            Vote.objects.create(post=posts[random.randrange(0, 50)], user=users[i])
-        print('50 Votes imported!!!')
+            Like.objects.create(post=posts[random.randrange(0, 50)], user=users[i])
+        print('50 Likes imported!!!')
 
         for i in range(50):
             Favorite.objects.create(post=posts[random.randrange(0, 50)], user=users[i])
@@ -63,16 +62,4 @@ class Command(BaseCommand):
             Comment.objects.create(post=posts[random.randrange(0, 50)], user=users[random.randrange(0, 50)])
         print('100 comments imported!')
 
-        # for post in posts:
-        #     num_favs = random.randint(0, 5)
-        #     random.shuffle(users)
-        #     for i in range(num_favs):
-        #         post.favorites.create(user=users[i])
-
-        # with open(get_path('books.csv'), 'r') as file:
-        #     reader = csv.DictReader(file)
-        #     for row in reader:
-        #         post.image.save(row['cover'], File(open(get_path(row['cover']), 'rb')))
-        #         post.save()
-
-        print('Data imported successfully!')
+        print('All data imported successfully!')
