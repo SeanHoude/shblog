@@ -21,7 +21,6 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
     path('contact/', views.contact, name='contact'),
-    path('posts', views.PostListView.as_view()),
     path('posts/<slug>/', views.post_detail, name='post_detail'),
     path('posts/<slug>/edit/', views.edit_post, name='edit_post'),
     path('posts/<slug>/favorite/', views.toggle_favorite, name='toggle_favorite'),

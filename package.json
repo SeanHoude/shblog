@@ -7,7 +7,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.3",
     "concurrently": "^4.1.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "node-sass": "^4.11.0"
   },
   "scripts": {

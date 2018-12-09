@@ -27,18 +27,14 @@ def index(request):
 
     })
 
-class PostListView(ListView):
-    context_object_name = 'posts'
-    model = Post
-
 def post_detail(request, slug):
-    posts = Post.objects.all().order_by('-created')
+    all_posts = Post.objects.all().order_by('-created')
     post = Post.objects.get(slug=slug)
     fav_posts = posts.annotate(num_favorites=Count('favorites'))
 
     return render(request, 'posts/post_detail.html', {
         'fav_posts': fav_posts,
-        'all': all,
+        'all_posts': all_posts,
         'post': post,
     })
 
