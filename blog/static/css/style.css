@@ -1,44 +1,19 @@
-body {
-    color: goldenrod;
-    background-color: rgb(33, 64, 105);
-    padding-left: 15px;
-}
 
-.callout {
-    background-color: aqua;
-    border-radius: 5%;
-}
 .nav-item {
     display: inline-block;
     padding: 0px 5px;
-    font-size: 1.1rem;
     margin-bottom: 0px;
     /* margin-top: 0px; */
 }
 
-.active {
-    color: rgb(2, 228, 160);
-    /* font-size: 2rem; */
-}
-
 img:hover {
-    -moz-box-shadow: 0 0 10px #ccc;
-    -webkit-box-shadow: 0 0 10px #ccc;
-    box-shadow: 0 0 10px #ccc;
+    -moz-box-shadow: 0 0 10px aqua;
+    -webkit-box-shadow: 0 0 10px aqua;
+    box-shadow: 0 0 10px aqua;
 }
 
 .cover-thumb {
     height: 300px;
-}
-
-.top-bar {
-    margin-left: -15px;
-    background-color: rgba(0, 0, 0, 0.411)
-}
-
-
-a {
-    color: lightseagreen;
 }
 
 ul {

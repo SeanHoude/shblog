@@ -16,8 +16,8 @@ class Post(Timestamp):
     description = models.TextField()
     slug = models.SlugField(unique=True, max_length=50)
     image = models.ImageField(default=None, blank=True)
-    favorited_by = models.ManyToManyField(User, through='Favorite', related_name='favorite_posts')
-    liked = models.ManyToManyField(User, through='Like', related_name='liked')
+    favorited_by = models.ManyToManyField(User, through='Favorite', related_name='user_favorited')
+    liked_by = models.ManyToManyField(User, through='Like', related_name='user_liked')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):

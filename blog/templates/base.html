@@ -1,59 +1,98 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
+<html class="no-js" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
-        {% block title %}Development Blog{% endblock title %}
+        {% block title %}Sean Houde - Dev Blog{% endblock title %}
     </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
     {% block header %}{% endblock header %}
 </head>
 <body>
-    <header>
-        <h1>Projects and experiences</h1>
-        <nav>
-            <ul class="top-bar">
-                <div class="top-bar-left">
-                        <li class="nav-item clear button primary float-left"><a href="{% url 'home' %}">Home</a></li>
-                        <li class="nav-item clear button primary float-left"><a href="{% url 'about' %}">About</a></li>
-                        <li class="nav-item clear button primary float-left"><a href="{% url 'contact' %}">Contact</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item clear button primary float-right"><a href="{% url 'auth_logout' %}">Logout</a></li>
-                    {% else %}
-                        <li class="nav-item clear button primary float-right"><a href="{% url 'auth_login' %}">Login</a></li>
-                        <li class="nav-item clear button primary float-right"><a href="{% url 'registration_register' %}">Register</a></li>
-                    {% endif %}
-                </div>
-            </ul>
-        </nav>
-    </header>
-    <div class="container">
-        {% for message in messages %}
-            <div{% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-        {% endfor %}
-    </div>
-    <div class="grid-x grid-margin-x">
-        <div class="cell small-12 medium-8 large-9">
-            {% block content %}{% endblock content %}
-        </div>               
-        <div class="cell auto">
-            {% block sidebar %}
-                <h3>All posts</h3>
-                <ul>
-                    {% for post in posts %}
-                        <li><a href="{% url 'post_detail' slug=post.slug %}">
-                            {{ post.title }} - added {{ post.created|date:'m-d-Y' }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
-            {% endblock sidebar %}
+  <header>
+    <h1>Sean Houde - Projects and Experiences</h1>
+    <nav>
+      <ul class="top-bar">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text">Sean Houde</li>
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About</a></li>
+              <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="#">{{ request.user }}</a>
+              <ul class="menu vertical nested">
+                <li><a href="#">Your likes</a></li>
+                <li><a href="#">Your comments</a></li>
+                <li><a href="#">Your favorites</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
+        <div class="top-bar-right">
+          <ul class="menu">
+            <li><input type="search" placeholder="Search"></li>
+            <li><button type="button" class="button">Search</button></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+            {% else %}
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+              <li><a href="{% url 'registration_register' %}">Register</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </ul>
+    </nav>
+    {% comment %} Jumbotron {% endcomment %}
+    <div class="callout large primary">
+      <div class="grid-x">
+        <div class="row small-2 columns"></div>
+        <div class="row column small-8 text-center">
+          <h1>Projects and Experiences Blog</h1>
+        </div>
+        <div class="row small-2 columns"></div>
+      </div>
     </div>
-    {% block footer %}{% endblock footer %}
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+  </header>
+  <div class="container">
+    {% for message in messages %}
+        <div{% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% comment %} Articles {% endcomment %}
+  <div class="grid-x">
+    <div class="medium-1 columns"></div>
+    <div class="medium-8 columns">
+      {% block articles %}
+
+      {% endblock articles %}
+    </div>
+    {% comment %} Sidebar {% endcomment %}
+    <div class="medium-2 columns" data-sticky-container>
+      <div class="sticky" data-sticky data-anchor="content">
+        {% block sidebar %}
+          <h3>All posts</h3>
+          <ul>
+            {% for post in all_posts %}
+              <li><a href="{% url 'post_detail' slug=post.slug %}">
+                {{ post.title }} - added {{ post.created|date:'m-d-Y' }}
+              </a></li>
+            {% endfor %}
+          </ul>
+        {% endblock sidebar %}
+      </div>
+    </div>
+  </div>
+  {% block footer %}{% endblock footer %}
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous" defer> 
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous" defer></script>
+  <script>$(document).foundation();</script>
 </body>
 </html>

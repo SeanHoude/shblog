@@ -1,38 +1,53 @@
 {% extends 'base.html' %}
 {% block title %}
-    Home - {{ block.super }}
+  Home - {{ block.super }}
 {% endblock title %}
 
+{% block articles %}
+  <div class="blog-post">
+  {% for post in posts %}
+    <h3><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }} <small>{{ post.created }}</small></a></h3>
+    <img class="thumbnail" src="https://placehold.it/850x350">
+    <p>{{ post.description|truncatechars:350 }}</p>
+    <div class="callout">
+      <ul class="menu simple">
+        <li><a href="#">Favorited {{ post.favorites.count }} time{{ post.favorites.count|pluralize }}</a></li>
+        <li><a href="#">Liked {{ post.likes.count }} time{{ post.likes.count|pluralize }}</a></li>
+      </ul>
+    </div>
+  {% endfor %}
+  </div>
+{% endblock articles %}
+
 {% block content %}
+  <div class="grid-x">
     <h1>Welcome to my projects and experiences site!</h1>
     <p>Please look around and feel free to leave a comment!</p>
-    <h1>Directory</h1>
-    <div class="grid-x">
-        {% for post in posts %}
-            <div class="cell large-6 callout">
-                <a href="{% url 'post_detail' slug=post.slug %}">{% if post.image %}<img class="cover-thumb" src="{{ post.image.url }}" alt=""></a>{% endif %}
-                 <div class="nav-item">
-                    <h5 class="float-left"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }} - {{ post.created|date:'m-d-Y' }}</a></h5>
-                    <!--  show favorite button if user is logged in  -->
-                    {% if request.user.is_authenticated %}{% endif %}
-                    <form method="POST" action="{% url 'toggle_favorite' slug=post.slug %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="post" value="{{ post.slug }}">
-                        <button class="star-five" type="submit">
-                            {% if post in favorite_posts %}
-                                
-                            {% else %}
+      {% for post in posts %}
+        <div class="cell large-6 callout">
+            <a href="{% url 'post_detail' slug=post.slug %}">{% if post.image %}<img class="cover-thumb" src="{{ post.image.url }}" alt=""></a>{% endif %}
+              <div class="nav-item">
+                <h5 class="float-left"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }} - {{ post.created|date:'m-d-Y' }}</a></h5>
+                <!--  show favorite button if user is logged in  -->
+                {% if request.user.is_authenticated %}{% endif %}
+                <form method="POST" action="{% url 'toggle_favorite' slug=post.slug %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="post" value="{{ post.slug }}">
+                  <button class="star-five" type="submit">
+                    {% if post in favorite_posts %}
+                        
+                    {% else %}
 
-                            {% endif %}
-                        </button>
-                    </form>
-                    <button class="button hollow success small" type="submit">Favorite</button>
-                </div>
-                <p>{{ post.description|truncatechars:150 }}</p>
-                <div class="button hollow small success">
-                    Favorited {{ post.favorites.count }} time{{ post.favorites.count|pluralize }}
-                </div>
+                    {% endif %}
+                  </button>
+                </form>
+                <button class="button hollow success small" type="submit">Favorite</button>
             </div>
-        {% endfor %}
-    </div>
+            <p>{{ post.description|truncatechars:150 }}</p>
+            <div class="button hollow small success">
+                Favorited {{ post.favorites.count }} time{{ post.favorites.count|pluralize }}
+            </div>
+        </div>
+      {% endfor %}
+  </div>
 {% endblock content %}

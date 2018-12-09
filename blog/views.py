@@ -11,17 +11,20 @@ from django.contrib import messages
 from blog.models import Post, Comment, Favorite, Like
 from blog.forms import PostForm, ContactForm
 from registration.backends.simple.views import RegistrationView
-
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 def index(request):
     post_list = Post.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes', '-created')
-
-    posts = Post.objects.all().order_by('-created')
+    all_posts = Post.objects.all().order_by('-created')
+    paginator = Paginator(post_list, 10)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
 
     return render(request, 'index.html', {
-        'all': all,
+        'all_posts': all_posts,
         'posts': posts,
         'post_list': post_list,
+
     })
 
 class PostListView(ListView):
@@ -109,7 +112,7 @@ def contact(request):
             email.send()
             return redirect('contact')
 
-    return render(request, 'contact.html', {
+    return render(request, 'nav/contact.html', {
         'form': form_class,
     })
 

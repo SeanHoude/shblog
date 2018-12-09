@@ -1,7 +1,6 @@
-
-
 import os
 import django_heroku
+from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -30,12 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
     'debug_toolbar',
     'django_extensions',
     'crispy_forms',
     'registration',
     'mimesis',
+    'rest_framework',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +122,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
+}
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'example@gmail.com'
@@ -131,9 +139,6 @@ EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
 LOGIN_REDIRECT_URL = 'home'
 INTERNAL_IPS = ['127.0.0.1']
-
-
-from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
     messages.SUCCESS: 'callout success',

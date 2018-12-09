@@ -1,11 +1,16 @@
 from django import forms
-from blog.models import Post, Comment
-
+from blog.models import Post, Comment, Like, Favorite
+from crispy_forms.helper import FormHelper
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'description', 'image')
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment',)
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True)

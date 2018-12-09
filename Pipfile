@@ -18,6 +18,7 @@ django-debug-toolbar = "*"
 python-dotenv = "*"
 django-crispy-forms = "*"
 mimesis = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"
